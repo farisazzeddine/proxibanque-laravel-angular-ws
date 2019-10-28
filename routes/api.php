@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -12,13 +14,27 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+//Employer--Route start
+Route::get('employer/liste','RegisterController@index');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::delete('delete/client/{id}', 'ClientController@destroy');
-Route::put('edit/client/{id}', 'ClientController@edit');
-Route::get('show/client/{id}', 'ClientController@show');
-Route::post('create/client', 'ClientController@create');
-Route::get('index/client', 'ClientController@index');
+//Settings--Route end
+Route::get('setting/index','SettingController@index');
+Route::post('setting/create','SettingController@create');
+//Settings--Route end
+//client--Route start
+Route::delete('client/delete/{id}', 'ClientController@destroy');
+Route::put('client/edit/{id}', 'ClientController@edit');
+Route::get('client/show/{id}', 'ClientController@show');
+Route::post('client/create', 'ClientController@create');
+Route::get('client/index', 'ClientController@index');
+//client--Route end
 
+//Agence--Route start
+Route::delete('agence/delete/{idAgence}', 'AgenceController@destroy');
+Route::put('agence/edit/{idAgence}', 'AgenceController@edit');
+Route::get('agence/show/{idAgence}', 'AgenceController@show');
+Route::post('agence/create', 'AgenceController@create');
+Route::get('agence/index', 'AgenceController@index');
+//Agence--Route end

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Setting;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
@@ -13,7 +13,9 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
+        $settings =Setting::all();
+        return response()->json($settings);
+       
     }
 
     /**
@@ -23,19 +25,15 @@ class SettingController extends Controller
      */
     public function create()
     {
-        //
+        $settings = new Setting;
+        $settings->commissionVirement = request('commissionVirement');
+        $settings->conseillersParclient = request('conseillersParclient');  
+        $settings->conseillers = request('conseillers'); 
+        $settings->save();
+        return response()->json($settings);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+   
 
     /**
      * Display the specified resource.
@@ -45,7 +43,9 @@ class SettingController extends Controller
      */
     public function show($id)
     {
-        //
+        $settings = Setting::findOrFail($id);
+        return response()->json($settings);
+
     }
 
     /**
@@ -59,17 +59,7 @@ class SettingController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    
 
     /**
      * Remove the specified resource from storage.

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Gerant;
+use App\Conseiller;
+
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -22,19 +25,6 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('guest');
@@ -52,6 +42,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'cin' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 
@@ -61,17 +52,27 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create()
     {
-        return User::create([
-            'name' => $data['name'],
-            'prenom' => $data['prenom'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'is_gerant' =>$data['gerant'],
-            'is_employer' =>$data['employer'],
-            'deleted_at' =>$data['deleted_at'],
+        $users = new User;
+            $users->name = request('name');
+            $users->prenom = request('prenom');
+            $users->email = request('email');
+            $users->cin = request('cin');
+            $users->password = Hash::make('password');
+            $users->is_gerant = request('is_gerant');
+            $users->is_employer = request('is_employer');
+            $users->save();
 
-        ]);
+            if($users->is_gerant == true){
+               $gerants = User::latest('id')->first();
+
+            }
+           
+       
+    }
+    public function index(){
+        $employer = User::all();
+        return response()->json($employer);
     }
 }
