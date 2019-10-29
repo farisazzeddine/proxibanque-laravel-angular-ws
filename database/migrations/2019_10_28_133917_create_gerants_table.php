@@ -16,8 +16,6 @@ class CreateGerantsTable extends Migration
         Schema::create('gerants', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('idGerant');
-            $table->string('NomGerant');
-            $table->string('prenomGerant');
             $table->softDeletesTz();
             $table->timestamps();
         });

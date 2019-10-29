@@ -15,7 +15,11 @@ use Illuminate\Http\Request;
 |
 */
 //Employer--Route start
-Route::get('employer/liste','RegisterController@index');
+Route::get('employer/liste','Auth\RegisterController@index');
+Route::post('employer/create','Auth\RegisterController@create');
+Route::get('employer/show/{id}','Auth\RegisterController@show');
+Route::put('employer/edit/{id}','Auth\RegisterController@edit');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

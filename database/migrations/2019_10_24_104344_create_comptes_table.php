@@ -14,8 +14,11 @@ class CreateComptesTable extends Migration
     public function up()
     {
         Schema::create('comptes', function (Blueprint $table) {
-            $table->bigIncrements('idCompte');
+            $table->bigIncrements('id');
+            $table->integer('idClient');
+            $table->uuid('numCompte');
             $table->double('solde');
+            $table->softDeletesTz();
             $table->timestamps();
         });
     }

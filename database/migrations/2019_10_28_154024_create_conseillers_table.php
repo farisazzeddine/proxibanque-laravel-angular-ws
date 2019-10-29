@@ -16,8 +16,6 @@ class CreateConseillersTable extends Migration
         Schema::create('conseillers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('idConseiller');
-            $table->string('NomConseiller');
-            $table->string('prenomConseiller');
             $table->softDeletesTz();
             $table->timestamps();
         });

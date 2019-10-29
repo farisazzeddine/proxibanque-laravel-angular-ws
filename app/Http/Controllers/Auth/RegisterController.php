@@ -36,7 +36,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    public function validator(array $data)
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
@@ -46,15 +46,19 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function index(){
+            $employer = User::all();
+            return response()->json($employer);
+    }
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\User
      */
-    protected function create()
+    public function create()
     {
-        $users = new User;
+            $users = new User;
             $users->name = request('name');
             $users->prenom = request('prenom');
             $users->email = request('email');
@@ -63,16 +67,51 @@ class RegisterController extends Controller
             $users->is_gerant = request('is_gerant');
             $users->is_employer = request('is_employer');
             $users->save();
-
             if($users->is_gerant == true){
-               $gerants = User::latest('id')->first();
+                $gerants = new Gerant;
+                $gerants->idGerant = $users->id;
+                $gerants->save();
+             }else{
+                 $conseillers = new Conseiller;
+                 $conseillers->idConseiller=$users->id;
+                 $conseillers->save();
+             }
 
-            }
-           
-       
+             return response()->json($users);
+   
     }
-    public function index(){
-        $employer = User::all();
-        return response()->json($employer);
+    public function show($id){
+        $employers = User::findOrFail($id);
+
+        return response()->json($employers);
+    }
+
+    public function edit($id){
+        $employers = User::findOrFail($id);
+        $employers->name = request('name');
+        $employers->prenom = request('prenom');
+        $employers->email = request('email');
+        $employers->cin = request('cin');
+        $employers->password = Hash::make('password');
+        $employers->is_gerant = request('is_gerant');
+        $employers->is_employer = request('is_employer');
+        $employers->update();
+        if($employers->is_gerant == true){
+            $gerants = new Gerant;
+            $gerants->idGerant = $employers->id;
+            $gerants->update();
+         }else{
+             $conseillers = new Conseiller;
+             $conseillers->idConseiller=$employers->id;
+             $conseillers->update();
+         }
+
+        return response()->json($employers);
+
+    }
+    public function destroy($id){
+             $employers = User::findOrFail($id);
+             $employers->deletes();
+          return response()->json($employers);
     }
 }

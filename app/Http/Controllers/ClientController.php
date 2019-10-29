@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 use App\User;
 use App\Client;
+use App\Compte;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ClientController extends Controller
 {
@@ -28,15 +30,30 @@ class ClientController extends Controller
     {
         
         $client = new Client;
+        $client->idConseiller = 1;
         $client->nom = request('name');
         $client->prenom = request('prenom');
         $client->adresse = request('adresse');
+        $client->cin = request('cin');
         $client->codePostal = request('codePostal');
         $client->ville = request('ville');
         $client->telephone = request('telephone');
         $client->compteCourant =  request('compteCourant');
         $client->compteEpargne = request('compteEpargne');
         $client->save();
+        if($client->compteCourant == true){
+            $comptes = new Compte;
+            $comptes->idClient = $client->id;
+            $comptes->numCompte = Str::uuid();
+            $comptes->solde = 20;
+            $comptes->save();
+        }else{
+            $comptes = new Compte;
+            $comptes->idClient = $client->id;
+            $comptes->numCompte = Str::uuid();
+            $comptes->solde = 20;
+            $comptes->save();
+        }
         return response()->json($client);
     }
     
