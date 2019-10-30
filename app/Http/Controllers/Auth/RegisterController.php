@@ -65,7 +65,7 @@ class RegisterController extends Controller
             $users->cin = request('cin');
             $users->password = Hash::make('password');
             $users->is_gerant = request('is_gerant');
-            $users->is_employer = request('is_employer');
+            $users->is_conseiller = request('is_conseiller');
             $users->save();
             if($users->is_gerant == true){
                 $gerants = new Gerant;
@@ -109,9 +109,11 @@ class RegisterController extends Controller
         return response()->json($employers);
 
     }
-    public function destroy($id){
+    public function destroy($id,$idConseiller){
              $employers = User::findOrFail($id);
-             $employers->deletes();
+             $employers->delete();
+             $conseillers = Conseiller::findOrFail($idConseiller);
+             $conseillers->delete();
           return response()->json($employers);
     }
 }

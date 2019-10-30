@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\User;
 use App\Client;
 use App\Compte;
@@ -104,6 +105,8 @@ class ClientController extends Controller
     {
         $client = Client::findOrFail($id);
         $client->delete();
-        return response()->json($client);
+        $comptes = Compte::findOrFail($id);
+        $comptes->delete();
+        return response()->json($client,204);
     }
 }

@@ -19,6 +19,7 @@ Route::get('employer/liste','Auth\RegisterController@index');
 Route::post('employer/create','Auth\RegisterController@create');
 Route::get('employer/show/{id}','Auth\RegisterController@show');
 Route::put('employer/edit/{id}','Auth\RegisterController@edit');
+Route::put('employer/delete/{id}','Auth\RegisterController@destroy');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -28,7 +29,7 @@ Route::get('setting/index','SettingController@index');
 Route::post('setting/create','SettingController@create');
 //Settings--Route end
 //client--Route start
-Route::delete('client/delete/{id}', 'ClientController@destroy');
+Route::post('client/delete/{id}', 'ClientController@destroy');
 Route::put('client/edit/{id}', 'ClientController@edit');
 Route::get('client/show/{id}', 'ClientController@show');
 Route::post('client/create', 'ClientController@create');

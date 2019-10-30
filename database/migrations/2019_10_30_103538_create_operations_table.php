@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateConseillersTable extends Migration
+class CreateOperationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateConseillersTable extends Migration
      */
     public function up()
     {
-        Schema::create('conseillers', function (Blueprint $table) {
+        Schema::create('operations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('idConseiller');
-            $table->integer('idClient');
+            $table->uuid('numCompte');
+            $table->double('montantOperation');
+            $table->boolean('versement')->nullable();
+            $table->boolean('retrait')->nullable();
+            $table->boolean('virement')->nullable();
             $table->softDeletesTz();
             $table->timestamps();
         });
@@ -29,6 +32,6 @@ class CreateConseillersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conseillers');
+        Schema::dropIfExists('operations');
     }
 }

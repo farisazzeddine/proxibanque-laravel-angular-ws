@@ -21,8 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('cin')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->boolean('is_gerant');
-            $table->boolean('is_employer');
+            $table->boolean('is_gerant')->nullable();
+            $table->boolean('is_conseiller')->nullable();
             $table->softDeletes('deleted_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

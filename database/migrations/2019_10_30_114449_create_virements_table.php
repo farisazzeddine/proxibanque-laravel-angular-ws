@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateConseillersTable extends Migration
+class CreateVirementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateConseillersTable extends Migration
      */
     public function up()
     {
-        Schema::create('conseillers', function (Blueprint $table) {
+        Schema::create('virements', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('idConseiller');
-            $table->integer('idClient');
+            $table->integer('idOperation');
             $table->softDeletesTz();
             $table->timestamps();
         });
@@ -29,6 +28,6 @@ class CreateConseillersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conseillers');
+        Schema::dropIfExists('virements');
     }
 }

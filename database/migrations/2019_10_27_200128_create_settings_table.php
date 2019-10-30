@@ -16,8 +16,10 @@ class CreateSettingsTable extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->float('commissionVirement');
-            $table->integer('conseillersParclient');
-            $table->integer('conseillers');
+            $table->float('commissionRetrait');
+            $table->float('commissionVersement');
+            $table->integer('NbrMxconseillersParclient');
+            $table->integer('nbrMxConseillers');
             $table->softDeletesTz('deleted_at')->nullable();
             $table->timestamps();
         });
