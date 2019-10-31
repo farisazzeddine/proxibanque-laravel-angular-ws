@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Operation;
 use App\Versement;
 use App\Virement;
 use App\Retrait;
@@ -17,24 +18,25 @@ class OperationController extends Controller
    }
    public function create(){
        $operations = new Operation;
-       $operations->numCompte = request('numcompte');
+       $operations->numCompte = request('numCompte');
        $operations->montantOperation = request('montantOperation');
        $operations->versement = request('versement');
        $operations->retrait = request('retrait');
        $operations->virement = request('virement');
        $operations->save();
+
        if($operations->versement == true){
            $versements = new Versement;
            $versements->idOperation = $operations->id;
            $versements->save();
        } elseif($operations->retrait == true){
            $retraits = new Retrait;
-           $retraits->$operations->id;
+           $retraits->idOperation=$operations->id;
            $retraits->save();
 
-       } elseif($operations->virement == true){
+       } else{
            $virements = new Virement;
-           $virements->$operations->id;
+           $virements->idOperation=$operations->id;
            $virements->save();
        }
        return response()->json($operations);

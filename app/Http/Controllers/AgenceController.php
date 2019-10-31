@@ -15,20 +15,22 @@ class AgenceController extends Controller
     public function create(){
         $agence = new Agence;
         $agence->nomAgence = request('nomAgence');
+        $agence->adresseAgence = request('adresseAgence');
         $agence->save();
         return response()->json($agence);
     }
-    public function show($idAgence){
-        $agence = Agence::findOrFail($idAgence);
+    public function show($id){
+        $agence = Agence::findOrFail($id);
         return response()->json($agence);
     }
-    public function update($idAgence){
-        $agence = Agence::findOrFail($idAgence);
+    public function edit($id){
+        $agence = Agence::findOrFail($id);
         $agence->nomAgence = request('nomAgence');
+        $agence->adresseAgence = request('adresseAgence');
         $agence->update();
     }
-    public function destroy($idAgence){
-        $agence = Agence::findOrFail($idAgence);
+    public function destroy($id){
+        $agence = Agence::findOrFail($id);
         $agence->delete();
     }
 }

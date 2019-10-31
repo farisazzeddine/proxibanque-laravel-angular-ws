@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->boolean('is_gerant')->nullable();
             $table->boolean('is_conseiller')->nullable();
-            $table->softDeletes('deleted_at')->nullable();
+            $table->softDeletes('deleted_at');
             $table->rememberToken();
             $table->timestamps();
         });

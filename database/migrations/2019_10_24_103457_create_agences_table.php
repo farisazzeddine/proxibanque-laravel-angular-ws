@@ -14,8 +14,10 @@ class CreateAgencesTable extends Migration
     public function up()
     {
         Schema::create('agences', function (Blueprint $table) {
-            $table->bigIncrements('idAgence');
+            $table->bigIncrements('id');
             $table->string('nomAgence');
+            $table->string('adresseAgence');
+            $table->softDeletesTz();
             $table->timestamps();
         });
     }

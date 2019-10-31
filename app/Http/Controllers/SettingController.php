@@ -27,8 +27,10 @@ class SettingController extends Controller
     {
         $settings = new Setting;
         $settings->commissionVirement = request('commissionVirement');
-        $settings->conseillersParclient = request('conseillersParclient');  
-        $settings->conseillers = request('conseillers'); 
+        $settings->commissionRetrait = request('commissionRetrait');
+        $settings->commissionVersement = request('commissionVersement');
+        $settings->NbrMxconseillersParclient = request('NbrMxconseillersParclient');  
+        $settings->nbrconseillers = request('nbrconseillers'); 
         $settings->save();
         return response()->json($settings);
     }

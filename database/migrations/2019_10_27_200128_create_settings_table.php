@@ -20,7 +20,7 @@ class CreateSettingsTable extends Migration
             $table->float('commissionVersement');
             $table->integer('NbrMxconseillersParclient');
             $table->integer('nbrMxConseillers');
-            $table->softDeletesTz('deleted_at')->nullable();
+            $table->softDeletesTz('deleted_at');
             $table->timestamps();
         });
     }
