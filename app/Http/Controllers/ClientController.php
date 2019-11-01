@@ -7,6 +7,7 @@ use App\Client;
 use App\Compte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+//use App\Http\Resources\ClientResource;
 
 class ClientController extends Controller
 {
@@ -17,9 +18,10 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $client = Client::all();
-
+        $client = Client::with('compte')->get(); 
+        
         return response()->json($client);
+        // return ClientResource::collection(Client::all());
     }
 
     /**
@@ -44,15 +46,15 @@ class ClientController extends Controller
         $client->save();
         if($client->compteCourant == true){
             $comptes = new Compte;
-            $comptes->idClient = $client->id;
+            $comptes->client_id = $client->id;
             $comptes->numCompte = Str::uuid();
-            $comptes->solde = 20;
+            $comptes->solde = request('solde');
             $comptes->save();
         }else{
             $comptes = new Compte;
-            $comptes->idClient = $client->id;
+            $comptes->client_id = $client->id;
             $comptes->numCompte = Str::uuid();
-            $comptes->solde = 20;
+            $comptes->solde = request('solde');
             $comptes->save();
         }
         return response()->json($client);

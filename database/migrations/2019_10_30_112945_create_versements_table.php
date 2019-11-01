@@ -15,7 +15,8 @@ class CreateVersementsTable extends Migration
     {
         Schema::create('versements', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('idOperation');
+            $table->unsignedBigInteger('operation_id')->unique();
+            $table->foreign('operation_id')->references('id')->on('operations');
             $table->softDeletesTz();
             $table->timestamps();
         });

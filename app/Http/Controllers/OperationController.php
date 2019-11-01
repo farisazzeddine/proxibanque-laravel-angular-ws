@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Compte;
 use App\Operation;
 use App\Versement;
 use App\Virement;
@@ -11,14 +12,14 @@ use Illuminate\Http\Request;
 class OperationController extends Controller
 {
    public function index(){
-       $operations = Operation::all();
+       $operations = Operation::with('compte')->get();
 
        return response()->json($operations);
 
    }
    public function create(){
        $operations = new Operation;
-       $operations->numCompte = request('numCompte');
+       $operations->numCompte_id = request('numCompte');
        $operations->montantOperation = request('montantOperation');
        $operations->versement = request('versement');
        $operations->retrait = request('retrait');
@@ -27,16 +28,16 @@ class OperationController extends Controller
 
        if($operations->versement == true){
            $versements = new Versement;
-           $versements->idOperation = $operations->id;
+           $versements->operation_id = $operations->id;
            $versements->save();
        } elseif($operations->retrait == true){
            $retraits = new Retrait;
-           $retraits->idOperation=$operations->id;
+           $retraits->operation_id=$operations->id;
            $retraits->save();
 
        } else{
            $virements = new Virement;
-           $virements->idOperation=$operations->id;
+           $virements->operation_id=$operations->id;
            $virements->save();
        }
        return response()->json($operations);

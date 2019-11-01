@@ -15,7 +15,8 @@ class CreateComptesTable extends Migration
     {
         Schema::create('comptes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('idClient');
+            $table->unsignedBigInteger('client_id')->unique();
+            $table->foreign('client_id')->references('id')->on('clients');
             $table->uuid('numCompte');
             $table->double('solde');
             $table->softDeletesTz();

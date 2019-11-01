@@ -8,4 +8,8 @@ class Operation extends Model
 {
    use SoftDeletes;
     protected $dates = ['deleted_at'];
+    
+    public function compte(){
+        return $this->belongsTo('App\Compte');
+    }
 }
