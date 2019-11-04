@@ -71,10 +71,6 @@ class RegisterController extends Controller
                 $gerants = new Gerant;
                 $gerants->idGerant = $users->id;
                 $gerants->save();
-             }else{
-                 $conseillers = new Conseiller;
-                 $conseillers->idConseiller=$users->id;
-                 $conseillers->save();
              }
 
              return response()->json($users);

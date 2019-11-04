@@ -19,7 +19,7 @@ class OperationController extends Controller
    }
    public function create(){
        $operations = new Operation;
-       $operations->numCompte_id = request('numCompte');
+       $operations->numCompte_id = request('numCompte_id');
        $operations->montantOperation = request('montantOperation');
        $operations->versement = request('versement');
        $operations->retrait = request('retrait');

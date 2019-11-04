@@ -21,6 +21,10 @@ Route::get('agence/show/{id}', 'AgenceController@show');
 Route::post('agence/create', 'AgenceController@create');
 Route::get('agence/index', 'AgenceController@index');
 //Agence--Route start
+//Compte--Route start
+Route::get('compte/index','CompteController@index');
+Route::put('compte/update','CompteController@edit');
+//Compte--Route end
 //Operation--Route start
 Route::delete('operation/delete/{id}', 'OperationController@destroy');
 Route::put('operation/edit/{id}', 'OperationController@edit');

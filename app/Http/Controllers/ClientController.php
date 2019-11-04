@@ -1,10 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\CarteBancaire;
 use App\User;
 use App\Client;
+use App\Conseiller;
 use App\Compte;
+use App\CompteCourant;
+use App\CompteEpargne;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 //use App\Http\Resources\ClientResource;
@@ -44,18 +48,46 @@ class ClientController extends Controller
         $client->compteCourant =  request('compteCourant');
         $client->compteEpargne = request('compteEpargne');
         $client->save();
+        
+            $conseillers = new Conseiller;
+            $conseillers->idConseiller=1;
+            $conseillers->idClient =$client->id;
+            $conseillers->save();
+        
         if($client->compteCourant == true){
-            $comptes = new Compte;
+            $comptes = new Compte();
             $comptes->client_id = $client->id;
             $comptes->numCompte = Str::uuid();
-            $comptes->solde = request('solde');
+            $comptes->solde = 200;
             $comptes->save();
+
+            $compteCourant = new CompteCourant();
+            $compteCourant->Compte_id = $comptes->id;
+            $compteCourant->montant = $comptes->solde;
+            $compteCourant->carteBancaire = 1;
+            $compteCourant->save();
+
+            if($compteCourant->carteBancaire == true){
+                $carteBancaire = new CarteBancaire();
+                $carteBancaire->numCartebancair = Str::uuid();
+                $idsc = rand(1000, 9999);
+                $carteBancaire->codeSecretCarte = $idsc;
+                $ldate = (date('Y')+5)."-".date('m')."-".date('d');
+                $carteBancaire->dateExperation = $ldate;
+                $carteBancaire->typeCarte = "Visa";
+                $carteBancaire->save();  
+            }
         }else{
             $comptes = new Compte;
             $comptes->client_id = $client->id;
             $comptes->numCompte = Str::uuid();
-            $comptes->solde = request('solde');
+            $comptes->solde = 200;
             $comptes->save();
+            
+            $compteEpargnes = new CompteEpargne();
+            $compteEpargnes->Compte_id = $comptes->id;
+            $compteEpargnes->tauxDeRum = $comptes->solde*0.02+$comptes->solde; 
+            $compteEpargnes->save(); 
         }
         return response()->json($client);
     }
