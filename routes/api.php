@@ -22,7 +22,7 @@ Route::post('agence/create', 'AgenceController@create');
 Route::get('agence/index', 'AgenceController@index');
 //Agence--Route start
 //Compte--Route start
-Route::get('compte/index','CompteController@index');
+Route::get('compte/liste','CompteController@index');
 Route::put('compte/update','CompteController@edit');
 //Compte--Route end
 //Operation--Route start
@@ -43,8 +43,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 //Settings--Route end
-Route::get('setting/index','SettingController@index');
+Route::get('setting/liste','SettingController@index');
 Route::post('setting/create','SettingController@create');
+Route::put('setting/edit/','SettingController@edit');
 //Settings--Route end
 //client--Route start
 Route::delete('client/delete/{id}', 'ClientController@destroy');

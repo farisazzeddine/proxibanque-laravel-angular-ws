@@ -15,7 +15,7 @@ class CreateOperationsTable extends Migration
     {
         Schema::create('operations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->uuid('numCompte_id')->unique();
+            $table->uuid('numCompte_id');
             $table->foreign('numCompte_id')->references('numCompte')->on('comptes');
             $table->double('montantOperation');
             $table->boolean('versement')->nullable();

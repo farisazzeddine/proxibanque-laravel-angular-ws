@@ -14,9 +14,12 @@ class Compte extends Model
     }
 
     public function operation(){
-        return $this->hasMany('App\Operation');
+        return $this->belongsToMany('App\Operation');
     }
     public function compteEpargne(){
-        return $this->hasMany('App\CompteEpargne');
+        return $this->hasMany('App\CompteEpargne','Compte_id','id');
+    }
+    public function compteCourant(){
+        return $this->hasMany('App\CompteCourant','Compte_id','id');
     }
 }

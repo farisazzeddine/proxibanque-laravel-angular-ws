@@ -13,7 +13,7 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $settings =Setting::all();
+        $settings =Setting::latest('id')->first();
         return response()->json($settings);
        
     }
@@ -28,9 +28,15 @@ class SettingController extends Controller
         $settings = new Setting;
         $settings->commissionVirement = request('commissionVirement');
         $settings->commissionRetrait = request('commissionRetrait');
+        $settings->commissionRetraitCheque = request('commissionRetraitCheque');
         $settings->commissionVersement = request('commissionVersement');
+        $settings->fraisOuvertureCompte = request('fraisOuvertureCompte');
+        $settings->fraisDetation = request('fraisDetation');
+        $settings->choixChangementCrtGuichet = request('choixChangementCrtGuichet');
+        $settings->DemandeCheque = request('DemandeCheque');
+        $settings->TransferSldEtranger = request('TransferSldEtranger');
         $settings->NbrMxconseillersParclient = request('NbrMxconseillersParclient');  
-        $settings->nbrconseillers = request('nbrconseillers'); 
+        $settings->nbrMxconseillers = request('nbrMxconseillers'); 
         $settings->save();
         return response()->json($settings);
     }
@@ -56,9 +62,22 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        $settings = Setting::latest('id')->first();;
+        $settings->commissionVirement = request('commissionVirement');
+        $settings->commissionRetrait = request('commissionRetrait');
+        $settings->commissionRetraitCheque = request('commissionRetraitCheque');
+        $settings->commissionVersement = request('commissionVersement');
+        $settings->fraisOuvertureCompte = request('fraisOuvertureCompte');
+        $settings->fraisDetation = request('fraisDetation');
+        $settings->choixChangementCrtGuichet = request('choixChangementCrtGuichet');
+        $settings->DemandeCheque = request('DemandeCheque');
+        $settings->TransferSldEtranger = request('TransferSldEtranger');
+        $settings->NbrMxconseillersParclient = request('NbrMxconseillersParclient');  
+        $settings->nbrMxconseillers = request('nbrMxconseillers'); 
+        $settings->update();
+        return response()->json($settings); 
     }
 
     

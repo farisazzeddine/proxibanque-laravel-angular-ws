@@ -17,6 +17,7 @@ class CreateVirementsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('operation_id')->unique();
             $table->foreign('operation_id')->references('id')->on('operations');
+            $table->uuid('virementVersCompte');
             $table->softDeletesTz();
             $table->timestamps();
         });

@@ -7,5 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Versement extends Model
 {
     use SoftDeletes;
-    protected $guarded = [];
+    protected $dates = ['deleted_at'];
+
+    public function opVersement(){
+        return $this->belongsTo('App\Operation','operation_id','id');
+    }
 }

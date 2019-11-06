@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class CompteController extends Controller
 {
     public function index(){  
-        $compte = Compte::with('compteEpargne')->get();
+        $compte = Compte::with('compteEpargne','compteCourant')->get();
         return response()->json($compte);
     }
     public function create(){

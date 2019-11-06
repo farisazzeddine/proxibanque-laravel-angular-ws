@@ -17,7 +17,13 @@ class CreateSettingsTable extends Migration
             $table->bigIncrements('id');
             $table->float('commissionVirement');
             $table->float('commissionRetrait');
+            $table->float('commissionRetraitCheque');
             $table->float('commissionVersement');
+            $table->float('fraisOuvertureCompte');
+            $table->float('choixChangementCrtGuichet');
+            $table->float('DemandeCheque');
+            $table->float('fraisDetation');
+            $table->float('TransferSldEtranger');
             $table->integer('NbrMxconseillersParclient');
             $table->integer('nbrMxConseillers');
             $table->softDeletesTz('deleted_at');
