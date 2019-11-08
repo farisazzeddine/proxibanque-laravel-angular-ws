@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Agence;
+use App\Gerant;
 use App\Setting;
 use Illuminate\Http\Request;
 
@@ -13,7 +16,7 @@ class SettingController extends Controller
      */
     public function index()
     {
-        $settings =Setting::latest('id')->first();
+        $settings =Setting::with('gerant','agence')->latest('id')->first();
         return response()->json($settings);
        
     }
@@ -25,13 +28,19 @@ class SettingController extends Controller
      */
     public function create()
     {
+        $agence = new Agence();
+        $agence->nomAgence = request('nomAgence');
+        $agence->adresseAgence = request('adresseAgence');
+        $agence->save();
         $settings = new Setting;
+        $settings->Agence_id=$agence->id;
+        $settings->Gerant_id=1;
         $settings->commissionVirement = request('commissionVirement');
         $settings->commissionRetrait = request('commissionRetrait');
         $settings->commissionRetraitCheque = request('commissionRetraitCheque');
         $settings->commissionVersement = request('commissionVersement');
         $settings->fraisOuvertureCompte = request('fraisOuvertureCompte');
-        $settings->fraisDetation = request('fraisDetation');
+        $settings->fraisDotation = request('fraisDotation');
         $settings->choixChangementCrtGuichet = request('choixChangementCrtGuichet');
         $settings->DemandeCheque = request('DemandeCheque');
         $settings->TransferSldEtranger = request('TransferSldEtranger');
@@ -64,7 +73,7 @@ class SettingController extends Controller
      */
     public function edit()
     {
-        $settings = Setting::latest('id')->first();;
+        $settings = Setting::latest('id')->first();
         $settings->commissionVirement = request('commissionVirement');
         $settings->commissionRetrait = request('commissionRetrait');
         $settings->commissionRetraitCheque = request('commissionRetraitCheque');
@@ -88,8 +97,10 @@ class SettingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        $settings = Setting::latest('id')->first();
+        $settings->delete();
+        return response()->json($settings); 
     }
 }

@@ -7,6 +7,7 @@ use App\User;
 use App\Client;
 use App\Conseiller;
 use App\Compte;
+use App\Agence;
 use App\CompteCourant;
 use App\CompteEpargne;
 use Illuminate\Http\Request;
@@ -37,7 +38,8 @@ class ClientController extends Controller
     {
         
         $client = new Client;
-        $client->idConseiller = 1;
+        $client->Conseiller_id = 1;
+        $client->Agence_id=1;
         $client->nom = request('name');
         $client->prenom = request('prenom');
         $client->adresse = request('adresse');
@@ -50,8 +52,8 @@ class ClientController extends Controller
         $client->save();
         
             $conseillers = new Conseiller;
-            $conseillers->idConseiller=1;
-            $conseillers->idClient =$client->id;
+            $conseillers->Conseiller_id=1;
+            $conseillers->Client_id =$client->id;
             $conseillers->save();
         
         if($client->compteCourant == true){
@@ -59,12 +61,14 @@ class ClientController extends Controller
             $comptes->client_id = $client->id;
             $comptes->numCompte = Str::uuid();
             $comptes->solde = 200;
+            // request('sold');
             $comptes->save();
 
             $compteCourant = new CompteCourant();
             $compteCourant->Compte_id = $comptes->id;
             $compteCourant->montant = $comptes->solde;
             $compteCourant->carteBancaire = 1;
+            // request('cartebancaire');
             $compteCourant->save();
 
             if($compteCourant->carteBancaire == true){
@@ -82,6 +86,7 @@ class ClientController extends Controller
             $comptes->client_id = $client->id;
             $comptes->numCompte = Str::uuid();
             $comptes->solde = 200;
+            // request('sold');
             $comptes->save();
             
             $compteEpargnes = new CompteEpargne();
@@ -139,8 +144,14 @@ class ClientController extends Controller
     {
         $client = Client::findOrFail($id);
         $client->delete();
-        $comptes = Compte::findOrFail($id);
+        $Compte_id=$id;
+        $comptes = Compte::findOrFail($Compte_id);
         $comptes->delete();
-        return response()->json($client,204);
+        $comptes = CompteCourant::findOrFail($Compte_id);
+        $comptes->delete();
+        $comptes = CompteEpargne::findOrFail($Compte_id);
+        $comptes->delete();
+
+        return response()->json($client);
     }
 }

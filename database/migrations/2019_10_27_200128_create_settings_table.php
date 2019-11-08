@@ -15,6 +15,10 @@ class CreateSettingsTable extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('Agence_id');
+            $table->foreign('Agence_id')->references('id')->on('agences');
+            $table->unsignedBigInteger('Gerant_id');
+            $table->foreign('Gerant_id')->references('id')->on('gerants');
             $table->float('commissionVirement');
             $table->float('commissionRetrait');
             $table->float('commissionRetraitCheque');
@@ -22,7 +26,7 @@ class CreateSettingsTable extends Migration
             $table->float('fraisOuvertureCompte');
             $table->float('choixChangementCrtGuichet');
             $table->float('DemandeCheque');
-            $table->float('fraisDetation');
+            $table->float('fraisDotation');
             $table->float('TransferSldEtranger');
             $table->integer('NbrMxconseillersParclient');
             $table->integer('nbrMxConseillers');

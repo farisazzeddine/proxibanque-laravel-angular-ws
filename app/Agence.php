@@ -8,4 +8,7 @@ class Agence extends Model
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
+    public function settingAg(){
+        return $this->hasMany('App\Setting');
+    }
 }

@@ -96,10 +96,6 @@ class RegisterController extends Controller
             $gerants = new Gerant;
             $gerants->idGerant = $employers->id;
             $gerants->update();
-         }else{
-             $conseillers = new Conseiller;
-             $conseillers->idConseiller=$employers->id;
-             $conseillers->update();
          }
 
         return response()->json($employers);

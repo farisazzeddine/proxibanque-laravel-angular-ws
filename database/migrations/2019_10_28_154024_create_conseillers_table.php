@@ -15,8 +15,9 @@ class CreateConseillersTable extends Migration
     {
         Schema::create('conseillers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('idConseiller');
-            $table->integer('idClient');
+            $table->integer('Conseiller_id');
+            $table->unsignedInteger('Client_id');
+            $table->foreign('Client_id')->references('id')->on('clients');
             $table->softDeletesTz();
             $table->timestamps();
         });

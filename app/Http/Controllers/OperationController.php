@@ -6,7 +6,7 @@ use App\Operation;
 use App\Versement;
 use App\Virement;
 use App\Retrait;
-
+use App\Setting;
 use Illuminate\Http\Request;
 
 class OperationController extends Controller
@@ -26,19 +26,37 @@ class OperationController extends Controller
        $operations->virement = request('virement');
        $operations->save();
 
+       $numCompte=$operations->numCompte_id;
+       $settings =Setting::with('gerant','agence')->latest('id')->first();
+
        if($operations->versement == true){
            $versements = new Versement;
            $versements->operation_id = $operations->id;
            $versements->save();
+           $comptes = Compte::where('numCompte',$numCompte)->first();
+           $comptes->solde=($comptes->solde) + ($operations->montantOperation) - ($settings->commissionVersement);
+           $comptes->update();
+
        } elseif($operations->retrait == true){
            $retraits = new Retrait;
            $retraits->operation_id=$operations->id;
            $retraits->save();
+           $comptes = Compte::where('numCompte',$numCompte)->first();
+           $comptes->solde=($comptes->solde) - ($operations->montantOperation) - ($settings->commissionRetrait);
+           $comptes->update();
 
        } else{
            $virements = new Virement;
            $virements->operation_id=$operations->id;
+           $virements->virementVersCompte=request('virementVersCompte');
            $virements->save();
+           $comptes = Compte::where('numCompte',$numCompte)->first();
+           $comptes->solde=($comptes->solde) - ($operations->montantOperation) - ($settings->commissionVirement);
+           $comptes->update();
+
+           $comptes = Compte::where('numCompte',$virements->virementVersCompte)->first();
+           $comptes->solde=($comptes->solde) + ($operations->montantOperation);
+           $comptes->update();
        }
        return response()->json($operations);
    }

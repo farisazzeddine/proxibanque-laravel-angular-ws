@@ -13,11 +13,8 @@ class AgenceController extends Controller
     }
 
     public function create(){
-        $agence = new Agence;
-        $agence->nomAgence = request('nomAgence');
-        $agence->adresseAgence = request('adresseAgence');
-        $agence->save();
-        return response()->json($agence);
+        
+        
     }
     public function show($id){
         $agence = Agence::findOrFail($id);
