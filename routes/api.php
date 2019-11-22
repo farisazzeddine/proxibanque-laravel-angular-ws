@@ -14,13 +14,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//Agence--Route start
-Route::delete('agence/delete/{id}', 'AgenceController@destroy');
-Route::put('agence/edit/{id}', 'AgenceController@edit');
-Route::get('agence/show/{id}', 'AgenceController@show');
-Route::post('agence/create', 'AgenceController@create');
-Route::get('agence/index', 'AgenceController@index');
-//Agence--Route start
 //Compte--Route start
 Route::get('compte/liste','CompteController@index');
 Route::put('compte/update','CompteController@edit');
@@ -63,10 +56,10 @@ Route::post('client/create', 'ClientController@create');
 Route::get('client/index', 'ClientController@index');
 //client--Route end
 
-//Agence--Route start
+//Agence--RouteApi start
 Route::delete('agence/delete/{id}', 'AgenceController@destroy');
 Route::put('agence/edit/{id}', 'AgenceController@edit');
 Route::get('agence/show/{id}', 'AgenceController@show');
 Route::post('agence/create', 'AgenceController@create');
 Route::get('agence/index', 'AgenceController@index');
-//Agence--Route end
+//Agence--RouteApi end

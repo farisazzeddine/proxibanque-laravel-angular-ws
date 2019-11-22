@@ -1,17 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use Validator;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\User;
+use Illuminate\Support\Facades\Validator;
+
 // use Illuminate\Support\Facades\Validator;
-
-
-
-
-
 
 class UserController extends Controller
 {
@@ -58,6 +54,7 @@ class UserController extends Controller
     }
     /** 
      * details api 
+     * pour les employeurs authentification 
      * 
      * @return \Illuminate\Http\Response 
      */ 
