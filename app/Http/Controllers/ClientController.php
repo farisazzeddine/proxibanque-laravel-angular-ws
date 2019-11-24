@@ -23,7 +23,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $client = Client::with('compte')->get(); 
+        $client = Client::orderByDesc('id')->with('compte')->get(); 
         
         return response()->json($client);
         // return ClientResource::collection(Client::all());
@@ -39,7 +39,7 @@ class ClientController extends Controller
         
         $client = new Client;
         $client->Conseiller_id = 1;
-        $client->Agence_id=1;
+        $client->Agence_id=request("agence");
         $client->nom = request('name');
         $client->prenom = request('prenom');
         $client->adresse = request('adresse');
@@ -60,15 +60,15 @@ class ClientController extends Controller
             $comptes = new Compte();
             $comptes->client_id = $client->id;
             $comptes->numCompte = Str::uuid();
-            $comptes->solde = 200;
+            $comptes->solde = request('solde');
             // request('sold');
             $comptes->save();
 
             $compteCourant = new CompteCourant();
             $compteCourant->Compte_id = $comptes->id;
             $compteCourant->montant = $comptes->solde;
-            $compteCourant->carteBancaire = 1;
-            // request('cartebancaire');
+            $compteCourant->carteBancaire = request('cartebancaire');
+            // ;
             $compteCourant->save();
 
             if($compteCourant->carteBancaire == true){
@@ -85,7 +85,7 @@ class ClientController extends Controller
             $comptes = new Compte;
             $comptes->client_id = $client->id;
             $comptes->numCompte = Str::uuid();
-            $comptes->solde = 200;
+            $comptes->solde = request('solde');
             // request('sold');
             $comptes->save();
             

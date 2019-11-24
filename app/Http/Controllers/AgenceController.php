@@ -13,7 +13,10 @@ class AgenceController extends Controller
     }
 
     public function create(){
-        
+        $agence = new Agence();
+        $agence->nomAgence = request('nomAgence');
+        $agence->adresseAgence = request('adresseAgence');
+        $agence->save();
         
     }
     public function show($id){

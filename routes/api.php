@@ -27,11 +27,12 @@ Route::post('operation/create', 'OperationController@create');
 Route::get('operation/liste', 'OperationController@index');
 //Operation--Route end
 //Employer--Route start
-// Route::get('employer/liste','Auth\RegisterController@index');
-// Route::post('employer/create','Auth\RegisterController@create');
-// Route::get('employer/show/{id}','Auth\RegisterController@show');
-// Route::put('employer/edit/{id}','Auth\RegisterController@edit');
-// Route::delete('employer/delete/{id}','Auth\RegisterController@destroy');
+Route::get('employer/liste','Auth\RegisterController@index');
+Route::post('employer/create','Auth\RegisterController@create');
+Route::get('employer/show/{id}','Auth\RegisterController@show');
+Route::put('employer/edit/{id}','Auth\RegisterController@edit');
+Route::delete('employer/delete/{id}','Auth\RegisterController@destroy');
+//json
 Route::post('login','API\UserController@login');
 Route::post('register','API\UserController@register');
 Route::group(['middleware'=>'auth:api'], function(){
