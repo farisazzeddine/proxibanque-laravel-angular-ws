@@ -61,14 +61,12 @@ class ClientController extends Controller
             $comptes->client_id = $client->id;
             $comptes->numCompte = Str::uuid();
             $comptes->solde = request('solde');
-            // request('sold');
             $comptes->save();
 
             $compteCourant = new CompteCourant();
             $compteCourant->Compte_id = $comptes->id;
             $compteCourant->montant = $comptes->solde;
             $compteCourant->carteBancaire = request('cartebancaire');
-            // ;
             $compteCourant->save();
 
             if($compteCourant->carteBancaire == true){
@@ -78,7 +76,7 @@ class ClientController extends Controller
                 $carteBancaire->codeSecretCarte = $idsc;
                 $ldate = (date('Y')+5)."-".date('m')."-".date('d');
                 $carteBancaire->dateExperation = $ldate;
-                $carteBancaire->typeCarte = "Visa";
+                $carteBancaire->typeCarte = request('typeCarte');
                 $carteBancaire->save();  
             }
         }else{
@@ -86,7 +84,6 @@ class ClientController extends Controller
             $comptes->client_id = $client->id;
             $comptes->numCompte = Str::uuid();
             $comptes->solde = request('solde');
-            // request('sold');
             $comptes->save();
             
             $compteEpargnes = new CompteEpargne();

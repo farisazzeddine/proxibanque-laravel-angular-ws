@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class AgenceController extends Controller
 {
     public function index(){
-        $agence = Agence::all();
+        $agence = Agence::orderByDesc('id')->get();
         return response()->json($agence);
     }
 

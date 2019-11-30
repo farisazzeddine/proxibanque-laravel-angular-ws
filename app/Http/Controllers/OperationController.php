@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class OperationController extends Controller
 {
    public function index(){
-       $operations = Operation::with('compte','OpertaionRetrait','OpertaionVirement','OpertaionVersement')->get();
+  $operations = Operation::with('compte','OpertaionRetrait','OpertaionVirement','OpertaionVersement')->all();
 
        return response()->json($operations);
 
@@ -72,14 +72,14 @@ class OperationController extends Controller
 
     return response()->json($operations);
    }
-   public function destroy($id,$idOperation){
+   public function destroy($id){
     $operations = Operation::findOrFail($id);
     $operations->delete();
-    $versements = Versement::findOrFail($idOperation);
+   $versements = Versement::where('idOperation',$id)->delete();
     $versements->delete();
-    $retraits = Retrait::findOrFail($idOperation);
+    $retraits = Retrait::where('idOperation',$id)->delete();
     $retraits->delete();
-    $virements = Virement::findOrFail($idOperation);
+    $virements = Virement::where('idOperation',$id)->delete();
     $virements->delete();
     return response()->json($operations);
    }

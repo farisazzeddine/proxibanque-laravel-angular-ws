@@ -20,11 +20,11 @@ Route::put('compte/update','CompteController@edit');
 Route::delete('compte/delete','CompteController@destroy');
 //Compte--Route end
 //Operation--Route start
-Route::delete('operation/delete/{id}', 'OperationController@destroy');
-Route::put('operation/edit/{id}', 'OperationController@edit');
-Route::get('operation/show/{id}', 'OperationController@show');
-Route::post('operation/create', 'OperationController@create');
-Route::get('operation/liste', 'OperationController@index');
+Route::delete('operation/{id}', 'OperationController@destroy');
+Route::put('operation/{id}', 'OperationController@edit');
+Route::get('operation/{id}', 'OperationController@show');
+Route::post('operation', 'OperationController@create');
+Route::get('operation', 'OperationController@index');
 //Operation--Route end
 //Employer--Route start
 Route::get('employer/liste','Auth\RegisterController@index');
@@ -43,24 +43,24 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 //Settings--Route end
-Route::get('setting/liste','SettingController@index');
-Route::post('setting/create','SettingController@create');
-Route::put('setting/edit/','SettingController@edit');
-Route::delete('setting/delete/','SettingController@destroy');
+Route::get('setting','SettingController@index');
+Route::post('setting','SettingController@create');
+Route::put('setting/{id}','SettingController@edit');
+Route::delete('setting/{id}','SettingController@destroy');
 //Settings--Route end
 
 //client--Route start
-Route::delete('client/delete/{id}', 'ClientController@destroy');
-Route::put('client/edit/{id}', 'ClientController@edit');
-Route::get('client/show/{id}', 'ClientController@show');
-Route::post('client/create', 'ClientController@create');
-Route::get('client/index', 'ClientController@index');
+Route::delete('client/{id}', 'ClientController@destroy');
+Route::put('client/{id}', 'ClientController@edit');
+Route::get('client/{id}', 'ClientController@show');
+Route::post('client', 'ClientController@create');
+Route::get('client', 'ClientController@index');
 //client--Route end
 
 //Agence--RouteApi start
-Route::delete('agence/delete/{id}', 'AgenceController@destroy');
-Route::put('agence/edit/{id}', 'AgenceController@edit');
-Route::get('agence/show/{id}', 'AgenceController@show');
-Route::post('agence/create', 'AgenceController@create');
-Route::get('agence/index', 'AgenceController@index');
+Route::delete('agence/{id}', 'AgenceController@destroy');
+Route::put('agence/{id}', 'AgenceController@edit');
+Route::get('agence/{id}', 'AgenceController@show');
+Route::post('agence', 'AgenceController@create');
+Route::get('agence', 'AgenceController@index');
 //Agence--RouteApi end
