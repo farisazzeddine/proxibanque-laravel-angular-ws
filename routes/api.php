@@ -27,21 +27,36 @@ Route::post('operation', 'OperationController@create');
 Route::get('operation', 'OperationController@index');
 //Operation--Route end
 //Employer--Route start
-Route::get('employer/liste','Auth\RegisterController@index');
-Route::post('employer/create','Auth\RegisterController@create');
-Route::get('employer/show/{id}','Auth\RegisterController@show');
-Route::put('employer/edit/{id}','Auth\RegisterController@edit');
-Route::delete('employer/delete/{id}','Auth\RegisterController@destroy');
+// Route::get('employer/liste','Auth\RegisterController@index');
+// Route::post('employer/create','Auth\RegisterController@create');
+// Route::get('employer/show/{id}','Auth\RegisterController@show');
+// Route::put('employer/edit/{id}','Auth\RegisterController@edit');
+// Route::delete('employer/delete/{id}','Auth\RegisterController@destroy');
 //json
-Route::post('login','API\UserController@login');
-Route::post('register','API\UserController@register');
-Route::group(['middleware'=>'auth:api'], function(){
-Route::post('details','API\UserController@details');
-});
 //Employer--Route start
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+
+
+Route::group([
+
+    'middleware' => 'api',
+
+], function () {
+    Route::post('login','API\UserController@login');
+    Route::post('register','API\UserController@register');
+    Route::post('logout','API\UserController@logout');
+
+    Route::get('employer/gerant','API\UserController@getGerant');
+    Route::get('employer/agent','API\UserController@getAgent');
+
+    Route::post('refresh', 'API\UserController@refresh');
+    Route::post('me', 'API\UserController@me');
+    Route::post('details','API\UserController@details');
+
 });
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 //Settings--Route end
 Route::get('setting','SettingController@index');
 Route::post('setting','SettingController@create');

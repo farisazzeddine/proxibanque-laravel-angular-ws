@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 use App\User;
+use App\Gerant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -11,20 +12,42 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    Public $successStatus = 200;
+    /**
+     * Create a new UserController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login','register','getGerant','getAgent']]);
+    }
+    //pour les employeur soit agent au bien gerant
+    public function getGerant(){
+       
+        return response()->json( User::where('is_gerant',true)->get());
+    }
+    public function getAgent(){
+       
+        return response()->json( User::where('is_conseiller',true)->get());
+    }
+     /**
+     * Get a JWT token via given credentials.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(Request $request)
+    {
+        $coordonne = $request->only('cin', 'password');
 
-    Public function login(){
-     if(Auth::attempt(['cin' =>request('cin'), 'password' => request('password')])){
-         $user = Auth::user();
-         $success['token']= $user->createToken('MyApp')->accessToken;
-         
-         return response()->json(['success' => $success], $this->successStatus);
-        }
-         else{
+        if (!$token = $this->guard()->attempt($coordonne)) {
             return response()->json(['error' => "CIN et PASSWORD n'exist pas"], 401);
         }
         
+        return $this->respondWithToken($token);
     }
+
     /** 
      * Register api 
      * 
@@ -33,12 +56,9 @@ class UserController extends Controller
 
     public function register(Request $request){
         $validator = Validator::make($request->all(),[
-            'name' => 'required',
-            'prenom' => 'required',
-            'email' => 'required|email',
-            'cin' => 'required',
-            'password' => 'required',
-            'c_password' => 'required|same:password',           
+            'name' => 'required','prenom' => 'required','email' => 'required|email','cin' => 'required','password' => 'required',
+            'c_password' => 'required|same:password', 
+
         ]);
         if($validator->fails()){
             return response()->json(['error'=>$validator->errors()], 401);
@@ -48,19 +68,75 @@ class UserController extends Controller
         $user = User::create($input);
         $success['token'] = $user->createToken('MyApp')->accessToken;
         $success['name'] = $user->name;
+        if($input['is_gerant'] == true){
+            $gerants = new Gerant;
+            $gerants->idGerant = $user->id;
+            $gerants->save();
+         }
 
-        return response()->json(['success' => $success], $this->successStatus);
+        return $this->login($request);
 
     }
-    /** 
-     * details api 
-     * pour les employeurs authentification 
-     * 
-     * @return \Illuminate\Http\Response 
-     */ 
-    public function details(){
-        $user = Auth::user();
-        return response()->json(['success' => $user], $this->successStatus);
+   
+     /**
+     * Get the authenticated User
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function me()
+    {
+        return response()->json($this->guard()->user());
+    }
+
+    /**
+     * Log the user out (Invalidate the token)
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout()
+    {
+        $this->guard()->logout();
+
+        return response()->json(['message' => 'vous etes déconnecté']);
+    }
+
+    /**
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refresh()
+    {
+        return $this->respondWithToken($this->guard()->refresh());
+    }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => $this->guard()->factory()->getTTL() * 60,
+            'user'=>auth()->user()->name,
+            'gerant'=>auth()->user()->is_gerant
+            
+        ]);
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\Guard
+     */
+    public function guard()
+    {
+        return Auth::guard();
     }
     
 }
