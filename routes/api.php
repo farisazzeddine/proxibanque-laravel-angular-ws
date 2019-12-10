@@ -24,7 +24,7 @@ Route::delete('operation/{id}', 'OperationController@destroy');
 Route::put('operation/{id}', 'OperationController@edit');
 Route::get('operation/{id}', 'OperationController@show');
 Route::post('operation', 'OperationController@create');
-Route::get('operation', 'OperationController@index');
+Route::get('operation', 'OperationController@getAllOperation');
 //Operation--Route end
 //Employer--Route start
 // Route::get('employer/liste','Auth\RegisterController@index');

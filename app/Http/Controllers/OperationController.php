@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class OperationController extends Controller
 {
-   public function index(){
+   public function getAllOperation(){
   $operations = Operation::with('compte','OpertaionRetrait','OpertaionVirement','OpertaionVersement')->get();
 
        return response()->json($operations);

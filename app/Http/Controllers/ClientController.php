@@ -26,7 +26,7 @@ class ClientController extends Controller
         $client = Client::orderByDesc('id')->with('compte')->get(); 
         
         return response()->json($client);
-        // return ClientResource::collection(Client::all());
+        //return ClientResource::collection(Client::orderByDesc('id')->with('compte')->get());
     }
 
     /**
