@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class OperationController extends Controller
 {
    public function getAllOperation(){
-  $operations = Operation::with('compte','OpertaionRetrait','OpertaionVirement','OpertaionVersement')->get();
+  $operations = Operation::with('compte','OpertaionRetrait','OpertaionVirement','OpertaionVersement')->orderBy('id', 'desc')->get();
 
        return response()->json($operations);
 
