@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\API\UserController;
 use App\CarteBancaire;
 use App\User;
 use App\Client;
@@ -12,6 +12,7 @@ use App\CompteCourant;
 use App\CompteEpargne;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 //use App\Http\Resources\ClientResource;
 
 class ClientController extends Controller
@@ -38,9 +39,9 @@ class ClientController extends Controller
     {
         
         $client = new Client;
-        $client->Conseiller_id = 1;
+        $client->Conseiller_id =Auth::user('id');
         $client->Agence_id=request("agence");
-        $client->nom = request('name');
+        $client->nom = request('nom');
         $client->prenom = request('prenom');
         $client->adresse = request('adresse');
         $client->cin = request('cin');
@@ -52,7 +53,7 @@ class ClientController extends Controller
         $client->save();
         
             $conseillers = new Conseiller;
-            $conseillers->Conseiller_id=1;
+            $conseillers->Conseiller_id=Auth::user('id');
             $conseillers->Client_id =$client->id;
             $conseillers->save();
         

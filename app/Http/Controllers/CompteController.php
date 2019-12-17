@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class CompteController extends Controller
 {
-    public function index(){  
+    public function getCompte(){  
         $compte = Compte::with('compteEpargne','compteCourant')->get();
         return response()->json($compte);
     }

@@ -15,9 +15,9 @@ use Illuminate\Http\Request;
 |
 */
 //Compte--Route start
-Route::get('compte/liste','CompteController@index');
-Route::put('compte/update','CompteController@edit');
-Route::delete('compte/delete','CompteController@destroy');
+Route::get('compte','CompteController@getCompte');
+Route::put('compte/{id}','CompteController@edit');
+Route::delete('compte/{id}','CompteController@destroy');
 //Compte--Route end
 //Operation--Route start
 Route::delete('operation/{id}', 'OperationController@destroy');
@@ -52,6 +52,13 @@ Route::group([
     Route::post('refresh', 'API\UserController@refresh');
     Route::post('me', 'API\UserController@me');
     Route::post('details','API\UserController@details');
+    //client--Route start
+    Route::delete('client/{id}', 'ClientController@destroy');
+    Route::put('client/{id}', 'ClientController@edit');
+    Route::get('client/{id}', 'ClientController@show');
+    Route::post('client', 'ClientController@create');
+    Route::get('client', 'ClientController@index');
+    //client--Route end
 
 });
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -64,13 +71,6 @@ Route::put('setting/{id}','SettingController@edit');
 Route::delete('setting/{id}','SettingController@destroy');
 //Settings--Route end
 
-//client--Route start
-Route::delete('client/{id}', 'ClientController@destroy');
-Route::put('client/{id}', 'ClientController@edit');
-Route::get('client/{id}', 'ClientController@show');
-Route::post('client', 'ClientController@create');
-Route::get('client', 'ClientController@index');
-//client--Route end
 
 //Agence--RouteApi start
 Route::delete('agence/{id}', 'AgenceController@destroy');
