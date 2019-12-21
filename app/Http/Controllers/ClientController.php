@@ -39,7 +39,7 @@ class ClientController extends Controller
     {
         
         $client = new Client;
-        $client->Conseiller_id =Auth::user('id');
+        $client->Conseiller_id =request('authId');
         $client->Agence_id=request("agence");
         $client->nom = request('nom');
         $client->prenom = request('prenom');
@@ -53,7 +53,7 @@ class ClientController extends Controller
         $client->save();
         
             $conseillers = new Conseiller;
-            $conseillers->Conseiller_id=Auth::user('id');
+            $conseillers->Conseiller_id=request('authId');
             $conseillers->Client_id =$client->id;
             $conseillers->save();
         
