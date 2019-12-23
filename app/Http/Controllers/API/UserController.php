@@ -56,7 +56,11 @@ class UserController extends Controller
 
     public function register(Request $request){
         $validator = Validator::make($request->all(),[
-            'name' => 'required','prenom' => 'required','email' => 'required|email','cin' => 'required','password' => 'required',
+            'name'       => 'required',
+            'prenom'     => 'required',
+            'email'      => 'required|email',
+            'cin'        => 'required',
+            'password'   => 'required',
             'c_password' => 'required|same:password', 
 
         ]);
@@ -121,11 +125,11 @@ class UserController extends Controller
     {
         return response()->json([
             'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60,
-            'userId'=>auth()->user()->id,
-            'userName'=>auth()->user()->name,
-            'gerant'=>auth()->user()->is_gerant
+            'token_type'   => 'bearer',
+            'expires_in'   => $this->guard()->factory()->getTTL() * 60,
+            'userId'       => auth()->user()->id,
+            'userName'     => auth()->user()->name,
+            'gerant'       => auth()->user()->is_gerant
             
         ]);
     }
