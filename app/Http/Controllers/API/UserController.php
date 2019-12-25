@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-// use Illuminate\Support\Facades\Validator;
+//use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -19,16 +19,25 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register','getGerant','getAgent']]);
+        $this->middleware('auth:api', ['except' => ['login','register','getGerant','getAgent','countAgent','countGerant']]);
+    }
+    //statistique Agent et gerant
+    public function countGerant(){
+         return response()->json(User::where('is_gerant',true)->count());
+    }
+    public function countAgent(){
+         return response()->json( User::where('is_conseiller',true)->count());
     }
     //pour les employeur soit agent au bien gerant
     public function getGerant(){
        
-        return response()->json( User::where('is_gerant',true)->get());
+        return response()->json( User::where('is_gerant',true)->orderBy('id','DESC')->get());
+       
     }
     public function getAgent(){
        
-        return response()->json( User::where('is_conseiller',true)->get());
+        return response()->json( User::where('is_conseiller',true)->orderBy('id','DESC')->get());
+        
     }
      /**
      * Get a JWT token via given credentials.
@@ -78,7 +87,10 @@ class UserController extends Controller
             $gerants->save();
          }
 
-        return $this->login($request);
+        return response()->json(['success'=>'employer crée avec succsse',
+                                 $this->login($request)],200);
+                                                       
+         
 
     }
    

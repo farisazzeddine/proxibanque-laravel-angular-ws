@@ -48,6 +48,8 @@ Route::group([
 
     Route::get('employer/gerant','API\UserController@getGerant');
     Route::get('employer/agent','API\UserController@getAgent');
+    Route::get('countAgent','API\UserController@countAgent');
+    Route::get('countGerant','API\UserController@countGerant');
 
     Route::post('refresh', 'API\UserController@refresh');
     Route::post('me', 'API\UserController@me');
